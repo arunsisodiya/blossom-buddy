@@ -1,0 +1,34 @@
+/* PlantsInfo.css */
+
+/* Container for search results */
+.search-results-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center; /* Vertically center the items */
+  margin-top: 10px;
+  justify-content: center;
+}
+
+/* Animation when the search result enters */
+.search-result-enter {
+  opacity: 0;
+  transform: translateY(-20px); /* Move the element up initially */
+}
+
+.search-result-enter-active {
+  opacity: 1;
+  transform: translateY(0); /* Move the element back to its original position */
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Animation when the search result exits */
+.search-result-exit {
+  opacity: 1;
+}
+
+.search-result-exit-active {
+  opacity: 0;
+  transform: translateY(-20px); /* Move the element up when exiting */
+  transition: opacity 300ms, transform 300ms;
+}
