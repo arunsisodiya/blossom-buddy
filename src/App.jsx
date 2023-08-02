@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import PlantInfo from "./PlantsInfo/PlantsInfo";
-import Search from "./PlantsInfo/Search";
-import axios from "axios";
+import Search from "./components/search/Panel";
 import { Container } from "@mui/material";
-import Header from "./WebComponents/Header";
+import Header from "./components/Header";
+import { SearchSpecies } from "./api/species/search";
 
 function App() {
     const [searchText, setSearchText] = useState("");
@@ -12,19 +12,15 @@ function App() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const apiToken = "5UQJ_Msmdzu3c_4NjpGnshZYTdqMkVt0DQxXmblhgRA";
             try {
-                await axios
-                    .get("/api/v1/species/search?token=" + apiToken + "&q=" + searchText)
-                    .then((response) => {
-                        setSearchResult(response.data.data);
-                    });
+                const apiResponse = await SearchSpecies(searchText);
+                setSearchResult(apiResponse);
             } catch (error) {
                 console.error("Error fetching data: ", error);
             }
         };
 
-        fetchData();
+        fetchData().then(() => console.log("Got the API Response"));
     }, [searchText]);
 
     const handleSearch = (searchText) => {
@@ -35,7 +31,10 @@ function App() {
             <Header />
             <Container>
                 <Search onSearch={handleSearch} />
-                <PlantInfo data={searchResult} />
+                {
+                    searchResult.length > 0 &&
+                    <PlantInfo data={searchResult} />
+                }
             </Container>
         </>
     );
